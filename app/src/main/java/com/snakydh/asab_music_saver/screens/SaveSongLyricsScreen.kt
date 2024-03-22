@@ -40,7 +40,7 @@ fun SaveSongLyricsScreen(navController: NavController) {
                             },
                             imageVector = Icons.Default.ArrowBack, contentDescription = "arrow back"
                         )
-                        Text("Hol")
+                        Text("Save Song Lyrics")
                     }
                 }
             )
