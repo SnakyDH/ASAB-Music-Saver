@@ -1,6 +1,10 @@
 package com.snakydh.asab_music_saver.screens
 
+import android.content.Context
+import android.media.MediaPlayer
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -34,6 +38,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -45,7 +50,7 @@ import com.snakydh.asab_music_saver.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DrumScreen(navController: NavController) {
+fun DrumScreen(navController: NavController, context: Context) {
     Scaffold(topBar = {
         TopAppBar(
             colors = TopAppBarDefaults.topAppBarColors(
@@ -81,7 +86,7 @@ fun DrumScreen(navController: NavController) {
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 20.sp
             )
-            Drum()
+            Drum(context)
         }
     }
 }
@@ -101,7 +106,8 @@ fun DrumImage() {
 }
 
 @Composable
-fun Drum() {
+fun Drum(context: Context) {
+    val mp: MediaPlayer = MediaPlayer.create(context, R.raw.bongocatsfx)
     Box(
         modifier = Modifier
             .padding(20.dp)
@@ -123,7 +129,9 @@ fun Drum() {
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color(0xFFeadcd1)
                 ),
-                onClick = {}
+                onClick = {
+                    mp.start()
+                }
             ) {
                 Icon(
                     modifier = Modifier
