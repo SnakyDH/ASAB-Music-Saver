@@ -63,7 +63,7 @@ fun HomeScreen(navController: NavController) {
 }
 
 @Composable
-fun MenuButtons(navController:NavController ){
+fun MenuButtons(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxHeight(0.4F)
