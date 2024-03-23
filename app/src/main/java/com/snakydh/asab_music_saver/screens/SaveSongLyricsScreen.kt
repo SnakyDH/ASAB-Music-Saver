@@ -58,7 +58,6 @@ fun SaveSongLyricsScreen(navController: NavController) {
             verticalArrangement = Arrangement.Center,
         ) {
             Text(text = "Save Song Lyrics Screen")
-
         }
     }
 }
