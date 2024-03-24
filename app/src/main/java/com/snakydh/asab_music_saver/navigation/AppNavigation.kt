@@ -8,6 +8,7 @@ import androidx.navigation.compose.rememberNavController
 import com.snakydh.asab_music_saver.screens.DrumInstructionScreen
 import com.snakydh.asab_music_saver.screens.DrumScreen
 import com.snakydh.asab_music_saver.screens.HomeScreen
+import com.snakydh.asab_music_saver.screens.MaracaInstructionScreen
 import com.snakydh.asab_music_saver.screens.SaveSongLyricsScreen
 
 @Composable
@@ -25,6 +26,9 @@ fun AppNavigation(context: Context) {
         }
         composable(route = AppScreens.DrumInstructionScreen.route) {
             DrumInstructionScreen(navController = navController)
+        }
+        composable(route = AppScreens.MaracaInstructionScreen.route) {
+            MaracaInstructionScreen(navController = navController)
         }
     }
 

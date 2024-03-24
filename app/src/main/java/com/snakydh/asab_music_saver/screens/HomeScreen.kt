@@ -77,7 +77,7 @@ fun MenuButtons(navController: NavController) {
         )
         ElevatedCustomButton(
             text = "Practicar\nMaraca",
-            onClick = { navController.navigate(AppScreens.SaveSongLyricsScreen.route) },
+            onClick = { navController.navigate(AppScreens.MaracaInstructionScreen.route) },
         )
         ElevatedCustomButton(
             text = "Practicar\nTambor",
