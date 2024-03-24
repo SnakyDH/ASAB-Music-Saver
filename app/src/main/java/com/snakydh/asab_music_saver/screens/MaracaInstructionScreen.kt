@@ -68,6 +68,8 @@ fun MaracaInstructionScreen(navController: NavController) {
             verticalArrangement = Arrangement.Center,
         ) {
             Text(
+               // modifier = Modifier
+                  //  .padding(4.dp),
                 text = "Instrucciones",
                 fontSize = 35.sp,
                 textAlign = TextAlign.Center,
@@ -77,12 +79,38 @@ fun MaracaInstructionScreen(navController: NavController) {
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(490.dp)
+                    .height(505.dp)
                     .padding(horizontal = 25.dp, vertical = 16.dp),
                 shape = RoundedCornerShape(16.dp),
                 colors = CardDefaults.cardColors(Color.White),
                 elevation = CardDefaults.cardElevation(10.dp)
             ) {
+                Column(
+                    modifier = Modifier
+                        .padding(10.dp)
+                ) {
+                    Text(
+                        text = "¡Bienvenido/a a la función de práctica de maracas de nuestra aplicación!\n",
+                        fontWeight = FontWeight.ExtraBold,
+                        textAlign = TextAlign.Center,
+                        fontSize = 18.sp
+                    )
+                    Text(
+                        text = "Sigue estos simples pasos para comenzar a practicar:\n" +
+                                "Con nuestra función de práctica de maracas, simplemente agita tu dispositivo para sumergirte en la experiencia de " +
+                                "tocar maracas virtualmente. Con solo mover tu dispositivo, activarás el sonido de una maraca, y dependiendo de la intensidad " +
+                                "con la que la agites, sonará más fuerte.\n",
+                        textAlign = TextAlign.Center,
+                        fontSize = 17.sp
+                    )
+                    Text(
+                        text = "¡Eso es todo! Ahora estás listo/a para comenzar a practicar la maraca y disfrutar de la experiencia musical " +
+                                "que ofrece nuestra aplicación.\n ¡Diviértete agitando!",
+                        fontWeight = FontWeight.ExtraBold,
+                        textAlign = TextAlign.Center,
+                        fontSize = 18.sp
+                    )
+                }
             }
             Column(
                 modifier = Modifier
@@ -95,10 +123,13 @@ fun MaracaInstructionScreen(navController: NavController) {
                 }
                 Spacer(modifier = Modifier.height(15.dp))
 
+
                 OutlinedButton(onClick = { navController.navigate(AppScreens.HomeScreen.route) }) {
                     Text(text = "Atrás", fontSize = 24.sp)
                 }
             }
+
         }
+
     }
 }
