@@ -81,12 +81,39 @@ fun DrumInstructionScreen(navController: NavController) {
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(490.dp)
+                    .height(505.dp)
                     .padding(horizontal = 25.dp, vertical = 16.dp),
                 shape = RoundedCornerShape(16.dp),
                 colors = CardDefaults.cardColors(Color.White),
                 elevation = CardDefaults.cardElevation(10.dp)
             ) {
+                Column(
+                    modifier = Modifier
+                        .padding(10.dp)
+                ) {
+                    Text(
+                        text = "¡Bienvenido/a a la función de práctica de tambor de nuestra aplicación!\n",
+                        fontWeight = FontWeight.ExtraBold,
+                        textAlign = TextAlign.Center,
+                        fontSize = 18.sp
+                    )
+                    Text(
+                        text = "Sigue estos simples pasos para comenzar a practicar:\n" +
+                                "Con nuestra función de práctica de tambor, simplemente presiona el botón de empezar y sumérgete en la emoción " +
+                                "de tocar un tambor virtual. Una vez dentro, al tocar el parche del tambor en la pantalla, desencadenarás " +
+                                "el sonido de un tambor. \n",
+                        textAlign = TextAlign.Center,
+                        fontSize = 18.sp
+                    )
+                    Text(
+                        text = "¡Eso es todo! Ahora estás listo/a para comenzar a practicar el tambor y disfrutar de la experiencia musical " +
+                                "que ofrece nuestra aplicación. ¡Diviértete tocando!",
+                        fontWeight = FontWeight.ExtraBold,
+                        textAlign = TextAlign.Center,
+                        fontSize = 18.sp
+                    )
+
+                }
             }
             Column(
                 modifier = Modifier
@@ -94,7 +121,7 @@ fun DrumInstructionScreen(navController: NavController) {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                FilledTonalButton(onClick = { navController.navigate(AppScreens.HomeScreen.route) }) {
+                FilledTonalButton(onClick = { navController.navigate(AppScreens.DrumScreen.route) }) {
                     Text("¡Comenzar!", fontSize = 24.sp)
                 }
                 Spacer(modifier = Modifier.height(15.dp))
@@ -102,7 +129,8 @@ fun DrumInstructionScreen(navController: NavController) {
                 OutlinedButton(onClick = { navController.navigate(AppScreens.HomeScreen.route) }) {
                     Text(text = "Atrás", fontSize = 24.sp)
                 }
-            }
-        } // Column inicial
+
+            } // Column inicial
+        }
     }
 }
