@@ -88,7 +88,21 @@ fun DrumInstructionScreen(navController: NavController) {
                 elevation = CardDefaults.cardElevation(10.dp)
             ) {
             }
+            Column(
+                modifier = Modifier
+                    .padding(10.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                FilledTonalButton(onClick = { navController.navigate(AppScreens.HomeScreen.route) }) {
+                    Text("¡Comenzar!", fontSize = 24.sp)
+                }
+                Spacer(modifier = Modifier.height(15.dp))
 
+                OutlinedButton(onClick = { navController.navigate(AppScreens.HomeScreen.route) }) {
+                    Text(text = "Atrás", fontSize = 24.sp)
+                }
+            }
         } // Column inicial
     }
 }
