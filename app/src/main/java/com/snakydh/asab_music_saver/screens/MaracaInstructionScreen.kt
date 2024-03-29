@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -54,7 +55,7 @@ fun MaracaInstructionScreen(navController: NavController) {
                             },
                             imageVector = Icons.Default.ArrowBack, contentDescription = "arrow back"
                         )
-                        Text(" Maraca Instruction Screen")
+                        Text(" Instrucciones Maraca")
                     }
                 }
             )
@@ -67,19 +68,9 @@ fun MaracaInstructionScreen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
         ) {
-            Text(
-               // modifier = Modifier
-                  //  .padding(4.dp),
-                text = "Instrucciones",
-                fontSize = 35.sp,
-                textAlign = TextAlign.Center,
-                fontWeight = FontWeight.ExtraBold,
-                lineHeight = 40.sp
-            )
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(505.dp)
                     .padding(horizontal = 25.dp, vertical = 16.dp),
                 shape = RoundedCornerShape(16.dp),
                 colors = CardDefaults.cardColors(Color.White),
@@ -118,7 +109,7 @@ fun MaracaInstructionScreen(navController: NavController) {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                FilledTonalButton(onClick = { navController.navigate(AppScreens.HomeScreen.route) }) {
+                FilledTonalButton(onClick = { navController.navigate(AppScreens.MaracaScreen.route) }) {
                     Text("¡Comenzar!", fontSize = 24.sp)
                 }
                 Spacer(modifier = Modifier.height(15.dp))
