@@ -56,7 +56,7 @@ fun DrumInstructionScreen(navController: NavController) {
                             },
                             imageVector = Icons.Default.ArrowBack, contentDescription = "arrow back"
                         )
-                        Text(" Drum Instruction Screen")
+                        Text(" Instrucciones Tambor")
                     }
                 }
             )
@@ -69,19 +69,9 @@ fun DrumInstructionScreen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
         ) {
-            Text(
-                //modifier = Modifier
-                //  .padding(0.dp, 15.dp),
-                text = "Instrucciones",
-                fontSize = 35.sp,
-                textAlign = TextAlign.Center,
-                fontWeight = FontWeight.ExtraBold,
-                lineHeight = 40.sp
-            )
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(505.dp)
                     .padding(horizontal = 25.dp, vertical = 16.dp),
                 shape = RoundedCornerShape(16.dp),
                 colors = CardDefaults.cardColors(Color.White),
