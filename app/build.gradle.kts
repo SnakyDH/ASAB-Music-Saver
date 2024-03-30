@@ -63,6 +63,13 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:2.7.7")
     // Material Icons
     implementation("androidx.compose.material:material-icons-extended:1.6.4")
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.material)
+    implementation(libs.androidx.fragment.ktx)
+    implementation(libs.androidx.activity)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

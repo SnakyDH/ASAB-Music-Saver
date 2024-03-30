@@ -1,11 +1,12 @@
 package com.snakydh.asab_music_saver.screens
 
+import android.content.Context
+import android.content.Intent
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -33,11 +34,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.snakydh.asab_music_saver.MaracaActivity
 import com.snakydh.asab_music_saver.navigation.AppScreens
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MaracaInstructionScreen(navController: NavController) {
+fun MaracaInstructionScreen(navController: NavController,context: Context) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -109,18 +111,14 @@ fun MaracaInstructionScreen(navController: NavController) {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                FilledTonalButton(onClick = { navController.navigate(AppScreens.MaracaScreen.route) }) {
+                FilledTonalButton(onClick = { context.startActivity(Intent(context, MaracaActivity::class.java)) }) {
                     Text("¡Comenzar!", fontSize = 24.sp)
                 }
                 Spacer(modifier = Modifier.height(15.dp))
-
-
                 OutlinedButton(onClick = { navController.navigate(AppScreens.HomeScreen.route) }) {
                     Text(text = "Atrás", fontSize = 24.sp)
                 }
             }
-
         }
-
     }
 }

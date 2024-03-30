@@ -10,10 +10,12 @@ import androidx.compose.ui.Modifier
 import com.snakydh.asab_music_saver.navigation.AppNavigation
 import com.snakydh.asab_music_saver.ui.theme.ASABMusicSaverTheme
 
-class MainActivity : ComponentActivity() {
+class MainActivity : ComponentActivity(){
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+
             ASABMusicSaverTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -22,6 +24,8 @@ class MainActivity : ComponentActivity() {
                     AppNavigation(this)
                 }
             }
+
         }
+
     }
 }

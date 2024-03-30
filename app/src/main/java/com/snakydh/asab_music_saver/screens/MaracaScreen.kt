@@ -1,7 +1,11 @@
 package com.snakydh.asab_music_saver.screens
 
 import android.content.Context
+import android.content.Intent
+import android.hardware.SensorEvent
+import android.hardware.SensorListener
 import android.media.MediaPlayer
+import android.widget.TextView
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -34,6 +38,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -43,13 +48,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavController
+import com.snakydh.asab_music_saver.MainActivity
+import com.snakydh.asab_music_saver.MaracaActivity
 import com.snakydh.asab_music_saver.R
 import com.snakydh.asab_music_saver.navigation.AppScreens
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MaracaScreen(navController: NavController) {
+fun MaracaScreen(context: Context) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -63,11 +71,12 @@ fun MaracaScreen(navController: NavController) {
                     ) {
                         Icon(
                             modifier = Modifier.clickable {
-                                navController.popBackStack()
+                                context.startActivity(Intent(context, MainActivity::class.java))
                             },
                             imageVector = Icons.Default.ArrowBack, contentDescription = "arrow back"
                         )
                         Text(" Maraca Screen")
+
                     }
                 }
             )
@@ -79,6 +88,7 @@ fun MaracaScreen(navController: NavController) {
             verticalArrangement = Arrangement.SpaceEvenly,
         ) {
             MaracaImage()
+
             Text(
                 text = "< < Shake your Device > >",
                 fontWeight = FontWeight.SemiBold,
@@ -90,18 +100,12 @@ fun MaracaScreen(navController: NavController) {
 
 @Composable
 fun MaracaImage() {
-  /*  Card(
-        modifier = Modifier.padding(100.dp),
-        shape = CircleShape,
-
-    ) {*/
-        Image(
-            modifier = Modifier
-                .width(500.dp)
-                .height(500.dp),
-            alignment = Alignment.Center,
-            painter = painterResource(id = R.drawable.mexcat),
-            contentDescription = "maraca cat",
-        )
-    //}
+    Image(
+        modifier = Modifier
+            .width(500.dp)
+            .height(500.dp),
+        alignment = Alignment.Center,
+        painter = painterResource(id = R.drawable.mexcat),
+        contentDescription = "maraca cat",
+    )
 }
