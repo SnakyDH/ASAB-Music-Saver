@@ -57,7 +57,7 @@ fun HomeScreen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             MenuButtons(navController)
-            SongsList()
+            SongsList(navController)
         }
     }
 }
@@ -87,7 +87,7 @@ fun MenuButtons(navController: NavController) {
 }
 
 @Composable
-fun SongsList() {
+fun SongsList(navController: NavController) {
     val padding = 10.dp
     Card(
         modifier = Modifier
@@ -111,16 +111,16 @@ fun SongsList() {
                 fontSize = 32.sp,
                 textAlign = TextAlign.Center,
             )
-            SongCard()
+            SongCard(navController)
             Spacer(modifier = Modifier.padding(padding))
-            SongCard()
+            SongCard(navController)
         }
     }
 }
 
 @Composable
-fun SongCard() {
-    Button(onClick = { /*TODO*/ }, shape = RoundedCornerShape(20.dp)) {
+fun SongCard(navController: NavController) {
+    Button(onClick = { navController.navigate(AppScreens.SongDetailScreen.route) }, shape = RoundedCornerShape(20.dp)) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
