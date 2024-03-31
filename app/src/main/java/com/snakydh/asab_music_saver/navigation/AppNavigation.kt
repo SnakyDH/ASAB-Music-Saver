@@ -10,6 +10,7 @@ import com.snakydh.asab_music_saver.screens.DrumScreen
 import com.snakydh.asab_music_saver.screens.HomeScreen
 import com.snakydh.asab_music_saver.screens.MaracaInstructionScreen
 import com.snakydh.asab_music_saver.screens.SaveSongLyricsScreen
+import com.snakydh.asab_music_saver.screens.SongDetailScreen
 
 @Composable
 fun AppNavigation(context: Context) {
@@ -28,7 +29,10 @@ fun AppNavigation(context: Context) {
             DrumInstructionScreen(navController = navController)
         }
         composable(route = AppScreens.MaracaInstructionScreen.route) {
-            MaracaInstructionScreen(navController = navController,context = context)
+            MaracaInstructionScreen(navController = navController, context = context)
+        }
+        composable(route = AppScreens.SongDetailScreen.route) {
+            SongDetailScreen(navController = navController)
         }
     }
 }

@@ -7,5 +7,6 @@ sealed class AppScreens(val route: String) {
     data object DrumInstructionScreen : AppScreens("drum_instruction_screen")
     data object MaracaInstructionScreen : AppScreens("maraca_instruction_screen")
     data object MaracaScreen : AppScreens("maraca_screen")
+    data object SongDetailScreen : AppScreens("song_detail_screen")
 
 }
