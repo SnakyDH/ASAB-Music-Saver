@@ -98,7 +98,16 @@ fun SongDetailScreen(navController: NavController) {
                 }
 
             }
-
+            Column(
+                modifier = Modifier
+                    .padding(10.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                FilledTonalButton(onClick = { navController.navigate(AppScreens.HomeScreen.route) }) {
+                    Text(text = "Borrar", fontSize = 24.sp)
+                }
+            }
         }
     }
 }
