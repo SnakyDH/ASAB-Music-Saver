@@ -58,6 +58,9 @@ import java.util.Date
 fun HomeScreen(navController: NavController, context: Context, songViewModel: SongViewModel) {
     var searchWord: String by remember { mutableStateOf("") }
     var songs: MutableList<Song> by remember { mutableStateOf(mutableListOf()) }
+    var songSearched: Song by remember {
+        mutableStateOf(Song())
+    }
     Scaffold(
         topBar = {
             TopAppBar(
@@ -117,8 +120,8 @@ fun HomeScreen(navController: NavController, context: Context, songViewModel: So
                         songViewModel.getOneByTitle(
                             titleToSearch = searchWord,
                             context = context
-                        ) { data -> //MIRA ACÁAAAA
-                            searchWord = data.lyrics
+                        ) { data -> 
+                            songs = mutableListOf(data)
                         }
                     }) {
                     Text(text = "Search", textAlign = TextAlign.Center)
