@@ -1,5 +1,8 @@
 package com.snakydh.asab_music_saver.screens
 
+import android.annotation.SuppressLint
+import android.content.Context
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -8,8 +11,10 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -19,12 +24,19 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -32,11 +44,14 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.snakydh.asab_music_saver.components.ElevatedCustomButton
 import com.snakydh.asab_music_saver.navigation.AppScreens
+import com.snakydh.asab_music_saver.viewModel.SongViewModel
 import java.util.Date
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(navController: NavController) {
+fun HomeScreen(navController: NavController, context: Context, songViewModel: SongViewModel) {
+    var searchWord: String by remember { mutableStateOf("") }
+    //var songs: MutableList<Song> by remember { mutableStateOf(mutableListOf()) }
     Scaffold(
         topBar = {
             TopAppBar(
@@ -57,7 +72,40 @@ fun HomeScreen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             MenuButtons(navController)
-            SongsList(navController)
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 20.dp, horizontal = 20.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceEvenly,
+
+                ) {
+                TextField(
+                    shape = CircleShape,
+                    colors = TextFieldDefaults.colors(
+                        unfocusedIndicatorColor = Color.Transparent,
+                        focusedIndicatorColor = Color.Transparent,
+                    ),
+                    leadingIcon = {
+                        Icon(Icons.Default.Search, contentDescription = "search")
+                    },
+                    placeholder = {
+                        Text(text = "Search")
+                    },
+                    value = searchWord,
+                    onValueChange = { searchWord = it }
+                )
+                Button(onClick = {
+                    songViewModel.getOneById(
+                        context = context
+                    ) { data ->
+                        searchWord = data.title
+                    }
+                }) {
+                    Text(text = "Search")
+                }
+            }
+            SongsList(navController, context)
         }
     }
 }
@@ -87,7 +135,7 @@ fun MenuButtons(navController: NavController) {
 }
 
 @Composable
-fun SongsList(navController: NavController) {
+fun SongsList(navController: NavController, context: Context) {
     val padding = 10.dp
     Card(
         modifier = Modifier
@@ -111,16 +159,21 @@ fun SongsList(navController: NavController) {
                 fontSize = 32.sp,
                 textAlign = TextAlign.Center,
             )
-            SongCard(navController)
+            SongCard(navController, context = context)
             Spacer(modifier = Modifier.padding(padding))
-            SongCard(navController)
         }
     }
 }
 
 @Composable
-fun SongCard(navController: NavController) {
-    Button(onClick = { navController.navigate(AppScreens.SongDetailScreen.route) }, shape = RoundedCornerShape(20.dp)) {
+fun SongCard(
+    navController: NavController,
+    viewModel: SongViewModel = SongViewModel(),
+    context: Context
+) {
+    Button(onClick = {
+        navController.navigate(AppScreens.SongDetailScreen.route)
+    }, shape = RoundedCornerShape(20.dp)) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()

@@ -64,6 +64,10 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:2.7.7")
     // Material Icons
     implementation("androidx.compose.material:material-icons-extended:1.6.4")
+    //lifecycle
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.2")
+    //lifecycle
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.2")
     // Firebase
     implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
     //FireStore

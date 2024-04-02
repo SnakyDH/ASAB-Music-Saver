@@ -18,7 +18,7 @@ fun AppNavigation(context: Context) {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = AppScreens.HomeScreen.route) {
         composable(route = AppScreens.HomeScreen.route) {
-            HomeScreen(navController)
+            HomeScreen(navController, context, songViewModel = SongViewModel())
         }
         composable(route = AppScreens.SaveSongLyricsScreen.route) {
             SaveSongLyricsScreen(navController, viewModel = SongViewModel())
