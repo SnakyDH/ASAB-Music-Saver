@@ -96,10 +96,10 @@ fun HomeScreen(navController: NavController, context: Context, songViewModel: So
                     onValueChange = { searchWord = it }
                 )
                 Button(onClick = {
-                    songViewModel.getOneById(
+                    songViewModel.getOneByTitle(
                         context = context
                     ) { data ->
-                        searchWord = data.title
+                        searchWord = data.lyrics
                     }
                 }) {
                     Text(text = "Search")

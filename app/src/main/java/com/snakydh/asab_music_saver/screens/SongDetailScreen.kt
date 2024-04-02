@@ -23,6 +23,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,10 +37,13 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.snakydh.asab_music_saver.MaracaActivity
 import com.snakydh.asab_music_saver.navigation.AppScreens
+import com.snakydh.asab_music_saver.viewModel.SongViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SongDetailScreen(navController: NavController) {
+fun SongDetailScreen(navController: NavController, songViewModel: SongViewModel) {
+    var title: String by remember { mutableStateOf("") }
+    var lyrics: String by remember { mutableStateOf("") }
     Scaffold(
         topBar = {
             TopAppBar(
@@ -68,7 +75,7 @@ fun SongDetailScreen(navController: NavController) {
             verticalArrangement = Arrangement.Center,
         ) {
             Text(
-                text = "Nombre Canción",
+                text = title,
                 fontSize = 35.sp,
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.ExtraBold,
@@ -87,16 +94,11 @@ fun SongDetailScreen(navController: NavController) {
                         .padding(10.dp)
                 ) {
                     Text(
-                        text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy" +
-                                " text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. " +
-                                "It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. " +
-                                "It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with" +
-                                " desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+                        text = lyrics,
                         textAlign = TextAlign.Center,
                         fontSize = 18.sp
                     )
                 }
-
             }
             Column(
                 modifier = Modifier

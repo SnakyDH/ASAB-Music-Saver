@@ -33,7 +33,7 @@ fun AppNavigation(context: Context) {
             MaracaInstructionScreen(navController = navController, context = context)
         }
         composable(route = AppScreens.SongDetailScreen.route) {
-            SongDetailScreen(navController = navController)
+            SongDetailScreen(navController = navController, songViewModel = SongViewModel())
         }
     }
 }

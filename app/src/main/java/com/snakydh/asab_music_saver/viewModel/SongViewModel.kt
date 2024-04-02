@@ -52,11 +52,80 @@ class SongViewModel : ViewModel() {
         }
     }
 
+    fun getOneByTitle(
+        titleToSearch: String = "amorcito",
+        context: Context,
+        data: (Song) -> Unit
+    ) = CoroutineScope(Dispatchers.IO).launch {
+        val fireStoreRef = Firebase.firestore
+            .collection("songs")
+            .whereEqualTo("title", titleToSearch)
+        try {
+            fireStoreRef.get()
+                .addOnSuccessListener {
+                    for (document in it) {
+                        Log.d(
+                            "Song View Model",
+                            "Document Title ${document.getString("title")} "
+                        )
+                        val songId = document.id
+                        val title = document.getString("title")
+                        val lyrics = document.getString("lyrics")
+                        val song = Song(songId, title ?: "", lyrics ?: "")
+                        data(song)
+                        if (title == null || lyrics == null) {
+                            Log.w(
+                                "Song View Model - get by title",
+                                "Document ${document.id} is missing required fields (title or lyrics). Skipping conversion."
+                            )
+                            continue
+                        }
+                    }
+                }
+        } catch (e: Exception) {
+            Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+        }
+    }
+    fun getAll(
+        context: Context,
+        data: (MutableList<Song>) -> Unit
+    ) = CoroutineScope(Dispatchers.IO).launch {
+        val songs = mutableListOf<Song>()
+
+        val fireStoreRef = Firebase.firestore
+            .collection("songs")
+        try {
+            fireStoreRef.get()
+                .addOnSuccessListener {
+                    for (document in it) {
+                        Log.d(
+                            "Song View Model",
+                            "Document Title ${document.getString("title")} "
+                        )
+                        val songId = document.id
+                        val title = document.getString("title")
+                        val lyrics = document.getString("lyrics")
+                        val song = Song(songId, title ?: "", lyrics ?: "")
+                        songs.add(song)
+                        if (title == null || lyrics == null) {
+                            Log.w(
+                                "Song View Model - get all",
+                                " ${document.id}"
+                            )
+                            continue
+                        }
+                    }
+                    data(songs)
+                }
+        } catch (e: Exception) {
+            Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+        }
+    }
+
     fun deleteOne(
         songID: String = "mkrJjKll0EuThsRl9Voc",
         context: Context,
         navController: NavController,
-        backToHome: () -> Unit
     ) = CoroutineScope(Dispatchers.IO).launch {
         val fireStoreRef = Firebase.firestore
             .collection("songs")
