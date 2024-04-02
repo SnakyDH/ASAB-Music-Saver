@@ -61,7 +61,7 @@ class SongViewModel : ViewModel() {
                         val songData = it.toObject<Song>()!!
                         Toast.makeText(
                             context,
-                            "Letra ${songData.id}",
+                            "Letra ${songData.lyrics}",
                             Toast.LENGTH_LONG
                         ).show()
                         data(songData)
