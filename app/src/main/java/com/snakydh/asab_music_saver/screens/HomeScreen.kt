@@ -2,6 +2,7 @@ package com.snakydh.asab_music_saver.screens
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.widget.Toast
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,6 +19,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Button
@@ -56,7 +58,9 @@ import java.util.Date
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(navController: NavController, context: Context, songViewModel: SongViewModel) {
+
     var searchWord: String by remember { mutableStateOf("") }
+    var deleteId: String by remember { mutableStateOf("") }
     var songs: MutableList<Song> by remember { mutableStateOf(mutableListOf()) }
     var songSearched: Song by remember {
         mutableStateOf(Song())
@@ -120,14 +124,59 @@ fun HomeScreen(navController: NavController, context: Context, songViewModel: So
                         songViewModel.getOneByTitle(
                             titleToSearch = searchWord,
                             context = context
-                        ) { data -> 
+                        ) { data ->
                             songs = mutableListOf(data)
                         }
                     }) {
                     Text(text = "Search", textAlign = TextAlign.Center)
                 }
             }
-            SongsList(navController, context, songs)
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 20.dp, horizontal = 20.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceEvenly,
+
+                ) {
+                TextField(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1F),
+                    shape = CircleShape,
+                    colors = TextFieldDefaults.colors(
+                        unfocusedIndicatorColor = Color.Transparent,
+                        focusedIndicatorColor = Color.Transparent,
+                    ),
+                    leadingIcon = {
+                        Icon(Icons.Default.Delete, contentDescription = "delete")
+                    },
+                    placeholder = {
+                        Text(text = "Delete")
+                    },
+                    value = deleteId,
+                    onValueChange = { deleteId = it }
+                )
+                Button(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(0.4F),
+                    onClick = {
+                        songViewModel.deleteOne(
+                            deleteId,
+                            context
+                        )
+                        songViewModel.getOneByTitle(
+                            titleToSearch = deleteId,
+                            context = context
+                        ) { data ->
+                            songs = mutableListOf(data)
+                        }
+                    }) {
+                    Text(text = "delete", textAlign = TextAlign.Center)
+                }
+            }
+            SongsList(navController, context, songs, songViewModel)
         }
     }
 }
@@ -157,7 +206,12 @@ fun MenuButtons(navController: NavController) {
 }
 
 @Composable
-fun SongsList(navController: NavController, context: Context, songs: MutableList<Song>) {
+fun SongsList(
+    navController: NavController,
+    context: Context,
+    songs: MutableList<Song>,
+    songViewModel: SongViewModel
+) {
     val padding = 10.dp
     val scrollState = rememberScrollState()
     Card(
@@ -201,7 +255,12 @@ fun SongsList(navController: NavController, context: Context, songs: MutableList
                 }
             }
             for (song in songs) {
-                SongCard(navController, context = context, song = song)
+                SongCard(
+                    navController,
+                    song = song,
+                    songViewModel = songViewModel,
+                    context = context
+                )
             }
         }
     }
@@ -210,11 +269,18 @@ fun SongsList(navController: NavController, context: Context, songs: MutableList
 @Composable
 fun SongCard(
     navController: NavController,
-    viewModel: SongViewModel = SongViewModel(),
+    songViewModel: SongViewModel,
     context: Context,
     song: Song
 ) {
+   // var songSelected: Song by remember { mutableStateOf(Song()) }
     Button(onClick = {
+        songViewModel.getOneById(songId = song.id, context = context) {
+           // songSelected = it
+        }
+
+
+        // todo: Explain
         navController.navigate(AppScreens.SongDetailScreen.route)
     }, shape = RoundedCornerShape(20.dp)) {
         Row(

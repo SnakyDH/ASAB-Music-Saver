@@ -23,14 +23,31 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
 class SongViewModel : ViewModel() {
+  /*
+    private val _songSelectedTitle = MutableLiveData<String>()
+    val songSelectedTitle: LiveData<String> = _songSelectedTitle
+
+    private val _songSelectedLyrics = MutableLiveData<String>()
+    val songSelectedLyrics: LiveData<String> = _songSelectedLyrics
+
+
+    private val _songSelectedId = MutableLiveData<String>()
+    val songSelectedId: LiveData<String> = _songSelectedId
+    fun selectSong(song: Song) {
+        _songSelectedTitle.value = song.title
+        _songSelectedId.value = song.lyrics
+        _songSelectedId.value = song.id
+        Log.d("PAULA", "song ${song.title}")
+    }
+*/
     private val _songRepository = SongRepository()
-    fun saveSong(title: String, lyrics: String,context: Context) {
+    fun saveSong(title: String, lyrics: String, context: Context) {
         val song = Song(title = title, lyrics = lyrics)
-        _songRepository.save(song,context)
+        _songRepository.save(song, context)
     }
 
     fun getOneById(
-        songId: String = "KcbqqaNbkxVv97BdvzAr",
+        songId: String = "",
         context: Context,
         data: (Song) -> Unit
     ) = CoroutineScope(Dispatchers.IO).launch {
@@ -42,6 +59,11 @@ class SongViewModel : ViewModel() {
                 .addOnSuccessListener {
                     if (it.exists()) {
                         val songData = it.toObject<Song>()!!
+                        Toast.makeText(
+                            context,
+                            "Letra ${songData.id}",
+                            Toast.LENGTH_LONG
+                        ).show()
                         data(songData)
                     } else {
                         Toast.makeText(context, "No Song", Toast.LENGTH_SHORT).show()
@@ -86,6 +108,7 @@ class SongViewModel : ViewModel() {
             Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
         }
     }
+
     fun getAll(
         context: Context,
         data: (MutableList<Song>) -> Unit
@@ -123,9 +146,8 @@ class SongViewModel : ViewModel() {
     }
 
     fun deleteOne(
-        songID: String = "mkrJjKll0EuThsRl9Voc",
+        songID: String = "",
         context: Context,
-        navController: NavController,
     ) = CoroutineScope(Dispatchers.IO).launch {
         val fireStoreRef = Firebase.firestore
             .collection("songs")
@@ -134,7 +156,7 @@ class SongViewModel : ViewModel() {
             fireStoreRef.delete()
                 .addOnSuccessListener {
                     Toast.makeText(context, "Deleted Song", Toast.LENGTH_SHORT).show()
-                    navController.popBackStack()
+
                 }
         } catch (e: Exception) {
             Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()

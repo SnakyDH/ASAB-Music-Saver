@@ -1,6 +1,7 @@
 package com.snakydh.asab_music_saver.screens
 
 import android.content.Intent
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,7 +18,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -35,15 +35,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.snakydh.asab_music_saver.MaracaActivity
+import com.snakydh.asab_music_saver.model.Song
 import com.snakydh.asab_music_saver.navigation.AppScreens
 import com.snakydh.asab_music_saver.viewModel.SongViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SongDetailScreen(navController: NavController, songViewModel: SongViewModel) {
-    var title: String by remember { mutableStateOf("") }
-    var lyrics: String by remember { mutableStateOf("") }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -75,7 +74,7 @@ fun SongDetailScreen(navController: NavController, songViewModel: SongViewModel)
             verticalArrangement = Arrangement.Center,
         ) {
             Text(
-                text = title,
+                text = "song.title",
                 fontSize = 35.sp,
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.ExtraBold,
@@ -94,7 +93,7 @@ fun SongDetailScreen(navController: NavController, songViewModel: SongViewModel)
                         .padding(10.dp)
                 ) {
                     Text(
-                        text = lyrics,
+                        text = "song.lyrics",
                         textAlign = TextAlign.Center,
                         fontSize = 18.sp
                     )
@@ -106,7 +105,10 @@ fun SongDetailScreen(navController: NavController, songViewModel: SongViewModel)
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                FilledTonalButton(onClick = { navController.navigate(AppScreens.HomeScreen.route) }) {
+                FilledTonalButton(onClick = {
+                    navController.navigate(AppScreens.HomeScreen.route)
+                }
+                ) {
                     Text(text = "Borrar", fontSize = 24.sp)
                 }
             }

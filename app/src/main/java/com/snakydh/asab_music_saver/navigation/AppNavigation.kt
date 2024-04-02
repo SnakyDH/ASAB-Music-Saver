@@ -2,9 +2,11 @@ package com.snakydh.asab_music_saver.navigation
 
 import android.content.Context
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.snakydh.asab_music_saver.screens.DrumInstructionScreen
 import com.snakydh.asab_music_saver.screens.DrumScreen
 import com.snakydh.asab_music_saver.screens.HomeScreen
@@ -21,7 +23,7 @@ fun AppNavigation(context: Context) {
             HomeScreen(navController, context, songViewModel = SongViewModel())
         }
         composable(route = AppScreens.SaveSongLyricsScreen.route) {
-            SaveSongLyricsScreen(navController, viewModel = SongViewModel(),context)
+            SaveSongLyricsScreen(navController, viewModel = SongViewModel(), context)
         }
         composable(route = AppScreens.DrumScreen.route) {
             DrumScreen(navController = navController, context = context)
