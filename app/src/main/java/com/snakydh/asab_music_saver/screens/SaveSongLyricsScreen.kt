@@ -1,5 +1,6 @@
 package com.snakydh.asab_music_saver.screens
 
+import android.content.Context
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,6 +15,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -40,10 +42,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.snakydh.asab_music_saver.navigation.AppScreens
+import com.snakydh.asab_music_saver.viewModel.SongViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SaveSongLyricsScreen(navController: NavController) {
+
+fun SaveSongLyricsScreen(navController: NavController, viewModel: SongViewModel = SongViewModel(),context: Context) {
     Scaffold(topBar = {
         TopAppBar(colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -55,7 +59,7 @@ fun SaveSongLyricsScreen(navController: NavController) {
                 Icon(
                     modifier = Modifier.clickable {
                         navController.popBackStack()
-                    }, imageVector = Icons.Default.ArrowBack, contentDescription = "arrow back"
+                    }, imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "arrow back"
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text("Save Song Lyrics")
@@ -63,7 +67,6 @@ fun SaveSongLyricsScreen(navController: NavController) {
         })
     }) { innerPadding ->
         val scrollState = rememberScrollState()
-
         Column(
             modifier = Modifier
                 .verticalScroll(scrollState)
@@ -72,12 +75,10 @@ fun SaveSongLyricsScreen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
         ) {
-
-            Form()
+            Form(navController, viewModel,context)
             Spacer(
                 modifier = Modifier.height(30.dp)
             )
-            Buttons(navController)
             Spacer(
                 modifier = Modifier.height(10.dp)
             )
@@ -86,25 +87,7 @@ fun SaveSongLyricsScreen(navController: NavController) {
 }
 
 @Composable
-fun Buttons(navController: NavController) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 50.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Button(onClick = { navController.navigate(AppScreens.HomeScreen.route) }) {
-            Text("Guardar", fontSize = 24.sp)
-        }
-        OutlinedButton(onClick = { navController.navigate(AppScreens.HomeScreen.route) }) {
-            Text(text = "Atrás", fontSize = 24.sp)
-        }
-    }
-}
-
-@Composable
-fun Form() {
+fun Form(navController: NavController, viewModel: SongViewModel,context: Context) {
     val name = remember { mutableStateOf("") }
     val lyrics = remember { mutableStateOf("") }
     Text(
@@ -151,5 +134,25 @@ fun Form() {
                 .height(295.dp)
                 .padding(horizontal = 35.dp)
         )
+        Spacer(
+            modifier = Modifier.height(20.dp)
+        )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 50.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Button(onClick = {
+                viewModel.saveSong(title = name.value, lyrics = lyrics.value, context = context)
+                navController.navigate(AppScreens.HomeScreen.route)
+            }) {
+                Text("Guardar", fontSize = 24.sp)
+            }
+            OutlinedButton(onClick = { navController.navigate(AppScreens.HomeScreen.route) }) {
+                Text(text = "Atrás", fontSize = 24.sp)
+            }
+        }
     }
 }

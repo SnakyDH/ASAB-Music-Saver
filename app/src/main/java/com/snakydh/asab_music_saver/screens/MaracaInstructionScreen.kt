@@ -1,5 +1,7 @@
 package com.snakydh.asab_music_saver.screens
 
+import android.content.Context
+import android.content.Intent
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -9,11 +11,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -34,11 +34,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.snakydh.asab_music_saver.MaracaActivity
 import com.snakydh.asab_music_saver.navigation.AppScreens
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DrumInstructionScreen(navController: NavController) {
+fun MaracaInstructionScreen(navController: NavController,context: Context) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -56,7 +57,7 @@ fun DrumInstructionScreen(navController: NavController) {
                             },
                             imageVector = Icons.Default.ArrowBack, contentDescription = "arrow back"
                         )
-                        Text(" Instrucciones Tambor")
+                        Text(" Instrucciones Maraca")
                     }
                 }
             )
@@ -82,27 +83,26 @@ fun DrumInstructionScreen(navController: NavController) {
                         .padding(10.dp)
                 ) {
                     Text(
-                        text = "¡Bienvenido/a a la función de práctica de tambor de nuestra aplicación!\n",
+                        text = "¡Bienvenido/a a la función de práctica de maracas de nuestra aplicación!\n",
                         fontWeight = FontWeight.ExtraBold,
                         textAlign = TextAlign.Center,
                         fontSize = 18.sp
                     )
                     Text(
                         text = "Sigue estos simples pasos para comenzar a practicar:\n" +
-                                "Con nuestra función de práctica de tambor, simplemente presiona el botón de empezar y sumérgete en la emoción " +
-                                "de tocar un tambor virtual. Una vez dentro, al tocar el parche del tambor en la pantalla, desencadenarás " +
-                                "el sonido de un tambor. \n",
+                                "Con nuestra función de práctica de maracas, simplemente agita tu dispositivo para sumergirte en la experiencia de " +
+                                "tocar maracas virtualmente. Con solo mover tu dispositivo, activarás el sonido de una maraca, y dependiendo de la intensidad " +
+                                "con la que la agites, sonará más fuerte.\n",
                         textAlign = TextAlign.Center,
-                        fontSize = 18.sp
+                        fontSize = 17.sp
                     )
                     Text(
-                        text = "¡Eso es todo! Ahora estás listo/a para comenzar a practicar el tambor y disfrutar de la experiencia musical " +
-                                "que ofrece nuestra aplicación. ¡Diviértete tocando!",
+                        text = "¡Eso es todo! Ahora estás listo/a para comenzar a practicar la maraca y disfrutar de la experiencia musical " +
+                                "que ofrece nuestra aplicación.\n ¡Diviértete agitando!",
                         fontWeight = FontWeight.ExtraBold,
                         textAlign = TextAlign.Center,
                         fontSize = 18.sp
                     )
-
                 }
             }
             Column(
@@ -111,16 +111,14 @@ fun DrumInstructionScreen(navController: NavController) {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                FilledTonalButton(onClick = { navController.navigate(AppScreens.DrumScreen.route) }) {
+                FilledTonalButton(onClick = { context.startActivity(Intent(context, MaracaActivity::class.java)) }) {
                     Text("¡Comenzar!", fontSize = 24.sp)
                 }
                 Spacer(modifier = Modifier.height(15.dp))
-
                 OutlinedButton(onClick = { navController.navigate(AppScreens.HomeScreen.route) }) {
                     Text(text = "Atrás", fontSize = 24.sp)
                 }
-
-            } // Column inicial
+            }
         }
     }
 }
