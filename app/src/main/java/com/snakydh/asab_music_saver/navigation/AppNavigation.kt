@@ -18,10 +18,10 @@ fun AppNavigation(context: Context) {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = AppScreens.HomeScreen.route) {
         composable(route = AppScreens.HomeScreen.route) {
-            HomeScreen(navController)
+            HomeScreen(navController, context, songViewModel = SongViewModel())
         }
         composable(route = AppScreens.SaveSongLyricsScreen.route) {
-            SaveSongLyricsScreen(navController, viewModel = SongViewModel())
+            SaveSongLyricsScreen(navController, viewModel = SongViewModel(),context)
         }
         composable(route = AppScreens.DrumScreen.route) {
             DrumScreen(navController = navController, context = context)
@@ -33,7 +33,7 @@ fun AppNavigation(context: Context) {
             MaracaInstructionScreen(navController = navController, context = context)
         }
         composable(route = AppScreens.SongDetailScreen.route) {
-            SongDetailScreen(navController = navController)
+            SongDetailScreen(navController = navController, songViewModel = SongViewModel())
         }
     }
 }
