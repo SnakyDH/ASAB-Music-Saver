@@ -8,11 +8,15 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Star
@@ -37,12 +41,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.snakydh.asab_music_saver.components.ElevatedCustomButton
+import com.snakydh.asab_music_saver.model.Song
 import com.snakydh.asab_music_saver.navigation.AppScreens
 import com.snakydh.asab_music_saver.viewModel.SongViewModel
 import java.util.Date
@@ -51,7 +57,7 @@ import java.util.Date
 @Composable
 fun HomeScreen(navController: NavController, context: Context, songViewModel: SongViewModel) {
     var searchWord: String by remember { mutableStateOf("") }
-    //var songs: MutableList<Song> by remember { mutableStateOf(mutableListOf()) }
+    var songs: MutableList<Song> by remember { mutableStateOf(mutableListOf()) }
     Scaffold(
         topBar = {
             TopAppBar(
@@ -81,6 +87,9 @@ fun HomeScreen(navController: NavController, context: Context, songViewModel: So
 
                 ) {
                 TextField(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1F),
                     shape = CircleShape,
                     colors = TextFieldDefaults.colors(
                         unfocusedIndicatorColor = Color.Transparent,
@@ -95,17 +104,27 @@ fun HomeScreen(navController: NavController, context: Context, songViewModel: So
                     value = searchWord,
                     onValueChange = { searchWord = it }
                 )
-                Button(onClick = {
-                    songViewModel.getOneByTitle(
-                        context = context
-                    ) { data ->
-                        searchWord = data.lyrics
-                    }
-                }) {
-                    Text(text = "Search")
+                Button(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(0.4F),
+                    onClick = {
+                        songViewModel.getAll(
+                            context
+                        ) {
+                            songs = it
+                        }
+                        songViewModel.getOneByTitle(
+                            titleToSearch = searchWord,
+                            context = context
+                        ) { data -> //MIRA ACÁAAAA
+                            searchWord = data.lyrics
+                        }
+                    }) {
+                    Text(text = "Search", textAlign = TextAlign.Center)
                 }
             }
-            SongsList(navController, context)
+            SongsList(navController, context, songs)
         }
     }
 }
@@ -135,8 +154,9 @@ fun MenuButtons(navController: NavController) {
 }
 
 @Composable
-fun SongsList(navController: NavController, context: Context) {
+fun SongsList(navController: NavController, context: Context, songs: MutableList<Song>) {
     val padding = 10.dp
+    val scrollState = rememberScrollState()
     Card(
         modifier = Modifier
             .clip(shape = RoundedCornerShape(10, 10)),
@@ -144,23 +164,42 @@ fun SongsList(navController: NavController, context: Context) {
             defaultElevation = 5.dp
         )
     ) {
+
         Column(
             modifier = Modifier
+                .verticalScroll(scrollState)
                 .padding(horizontal = padding)
-                .fillMaxHeight()
+                .fillMaxSize()
         )
         {
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 20.dp),
-                text = "Canciones",
-                fontWeight = FontWeight.ExtraBold,
-                fontSize = 32.sp,
-                textAlign = TextAlign.Center,
-            )
-            SongCard(navController, context = context)
-            Spacer(modifier = Modifier.padding(padding))
+            if (songs.isNotEmpty()) {
+                Card(modifier = Modifier.fillMaxSize(), shape = RoundedCornerShape(20.dp)) {
+                    Text(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 20.dp),
+                        text = "Canciones",
+                        fontWeight = FontWeight.ExtraBold,
+                        fontSize = 32.sp,
+                        textAlign = TextAlign.Center,
+                    )
+                }
+            } else {
+                Card(modifier = Modifier.fillMaxSize()) {
+                    Text(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 20.dp),
+                        text = "Cargue las canciones",
+                        fontWeight = FontWeight.ExtraBold,
+                        fontSize = 32.sp,
+                        textAlign = TextAlign.Center,
+                    )
+                }
+            }
+            for (song in songs) {
+                SongCard(navController, context = context, song = song)
+            }
         }
     }
 }
@@ -169,7 +208,8 @@ fun SongsList(navController: NavController, context: Context) {
 fun SongCard(
     navController: NavController,
     viewModel: SongViewModel = SongViewModel(),
-    context: Context
+    context: Context,
+    song: Song
 ) {
     Button(onClick = {
         navController.navigate(AppScreens.SongDetailScreen.route)
@@ -194,15 +234,16 @@ fun SongCard(
                     .clip(shape = RoundedCornerShape(10)),
             ) {
                 Text(
-                    text = "Nombre de Canción",
+                    text = song.title,
                     fontWeight = FontWeight.Bold,
                     fontSize = 24.sp,
                 )
                 Text(
-                    text = Date().toString(),
+                    text = song.id,
                     fontSize = 16.sp,
                 )
             }
         }
     }
+    Spacer(modifier = Modifier.padding(5.dp))
 }

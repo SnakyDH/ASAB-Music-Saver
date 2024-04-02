@@ -24,9 +24,9 @@ import kotlinx.coroutines.tasks.await
 
 class SongViewModel : ViewModel() {
     private val _songRepository = SongRepository()
-    fun saveSong(title: String, lyrics: String) {
+    fun saveSong(title: String, lyrics: String,context: Context) {
         val song = Song(title = title, lyrics = lyrics)
-        _songRepository.save(song)
+        _songRepository.save(song,context)
     }
 
     fun getOneById(
@@ -53,7 +53,7 @@ class SongViewModel : ViewModel() {
     }
 
     fun getOneByTitle(
-        titleToSearch: String = "amorcito",
+        titleToSearch: String = "",
         context: Context,
         data: (Song) -> Unit
     ) = CoroutineScope(Dispatchers.IO).launch {

@@ -21,7 +21,7 @@ fun AppNavigation(context: Context) {
             HomeScreen(navController, context, songViewModel = SongViewModel())
         }
         composable(route = AppScreens.SaveSongLyricsScreen.route) {
-            SaveSongLyricsScreen(navController, viewModel = SongViewModel())
+            SaveSongLyricsScreen(navController, viewModel = SongViewModel(),context)
         }
         composable(route = AppScreens.DrumScreen.route) {
             DrumScreen(navController = navController, context = context)

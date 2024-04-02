@@ -1,5 +1,6 @@
 package com.snakydh.asab_music_saver.screens
 
+import android.content.Context
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -46,7 +47,7 @@ import com.snakydh.asab_music_saver.viewModel.SongViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 
-fun SaveSongLyricsScreen(navController: NavController, viewModel: SongViewModel = SongViewModel()) {
+fun SaveSongLyricsScreen(navController: NavController, viewModel: SongViewModel = SongViewModel(),context: Context) {
     Scaffold(topBar = {
         TopAppBar(colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -66,7 +67,6 @@ fun SaveSongLyricsScreen(navController: NavController, viewModel: SongViewModel 
         })
     }) { innerPadding ->
         val scrollState = rememberScrollState()
-
         Column(
             modifier = Modifier
                 .verticalScroll(scrollState)
@@ -75,12 +75,10 @@ fun SaveSongLyricsScreen(navController: NavController, viewModel: SongViewModel 
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
         ) {
-
-            Form(navController, viewModel)
+            Form(navController, viewModel,context)
             Spacer(
                 modifier = Modifier.height(30.dp)
             )
-
             Spacer(
                 modifier = Modifier.height(10.dp)
             )
@@ -89,7 +87,7 @@ fun SaveSongLyricsScreen(navController: NavController, viewModel: SongViewModel 
 }
 
 @Composable
-fun Form(navController: NavController, viewModel: SongViewModel) {
+fun Form(navController: NavController, viewModel: SongViewModel,context: Context) {
     val name = remember { mutableStateOf("") }
     val lyrics = remember { mutableStateOf("") }
     Text(
@@ -147,7 +145,7 @@ fun Form(navController: NavController, viewModel: SongViewModel) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Button(onClick = {
-                viewModel.saveSong(title = name.value, lyrics = lyrics.value)
+                viewModel.saveSong(title = name.value, lyrics = lyrics.value, context = context)
                 navController.navigate(AppScreens.HomeScreen.route)
             }) {
                 Text("Guardar", fontSize = 24.sp)

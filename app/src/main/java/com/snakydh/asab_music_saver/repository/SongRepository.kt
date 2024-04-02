@@ -1,6 +1,8 @@
 package com.snakydh.asab_music_saver.repository
 
+import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.firestore
@@ -15,12 +17,14 @@ class SongRepository {
 
     private val db = Firebase.firestore
     private val collection = "songs";
-    fun save(song: Song) {
+    fun save(song: Song, context: Context) {
         db.collection(collection)
             .add(
                 song.toMap()
             ).addOnSuccessListener {
                 Log.d("ASAB Firebase", "Song created ${it.id}")
+                Toast.makeText(context,"Song created ${it.id}" , Toast.LENGTH_SHORT).show()
+
             }.addOnFailureListener {
                 Log.d("ASAB Firebase", "Error $it")
             }
